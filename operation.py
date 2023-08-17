@@ -33,7 +33,7 @@ class Operation:
             end_str = str_sel[len_acc - init.COUNT_DISPLAY_SYMBOLS_END_STRING_FROM:]
             sec_str = init.SYMBOL_FOR_SECURITY * (len_acc - len(start_str) - len(end_str))
             str_result = start_str + sec_str + end_str
-            # делим строку на блоки по n-знаков
+            # выводим строку в виде блоков по n-знаков
             n = init.COUNT_DIGITS_IN_BLOK
             chunks = [str_result[i:i + n] for i in range(0, len(str_result), n)]
             return str(" ".join(str_tmp) + " " + " ".join(chunks)).strip()
