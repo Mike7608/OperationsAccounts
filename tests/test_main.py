@@ -1,4 +1,5 @@
 import main
+from INIT import init
 
 
 def test_load_data():
@@ -10,11 +11,15 @@ def test_not_load_data():
     err_file = main.load_data("operations.json-0")
     assert err_file is None
 
-# def test_get():
-#     assert arrs.get([1, 2, 3], 1, "test") == 3
-#     assert arrs.get([], 0, "test") == "test"
-#
-#
-# def test_slice():
-#     assert arrs.my_slice([1, 2, 3, 4], 1, 3) == [2, 3]
-#     assert arrs.my_slice([1, 2, 3], 1) == [2, 3]
+
+def test_print_operation(capsys):
+    data = main.load_data("operations.json")
+    main.print_operation(data[0])
+    captured = capsys.readouterr()
+    assert captured.out == "08.12.2019 Открытие вклада\nЗачисление -> Счет **5907\n41096.24 USD\n\n"
+
+
+def test_main():
+    assert main.main() is None
+
+
