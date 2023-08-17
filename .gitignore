@@ -1,3 +1,5 @@
 /operations.json
 .idea/
 *.pyc
+htmlcov/
+/tests/commands.txt
