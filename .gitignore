@@ -4,3 +4,4 @@
 htmlcov/
 /tests/commands.txt
 .coverage
+.pytest_cache/
