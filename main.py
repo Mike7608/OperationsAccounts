@@ -19,20 +19,21 @@ def load_data(filepath):
             # преобразуем список данных json в список данных класса Operation
             for one_op in data_file:
                 if len(one_op) > 0:
-                    op = Operation()
-                    op['id'] = one_op['id']
-                    op['state'] = one_op['state']
-                    op['date'] = datetime.datetime.fromisoformat(one_op['date'])
-                    op['operationAmount'] = one_op['operationAmount']
-                    op['description'] = one_op['description']
-                    op['from'] = one_op.get('from', "")
-                    op['to'] = one_op.get('to', "")
-                    list_operation.append(op)
+                    if str(one_op['state']).upper() == init.TYPE_STATE_OPERATION.upper():
+                        op = Operation()
+                        op['id'] = one_op['id']
+                        op['state'] = one_op['state']
+                        op['date'] = datetime.datetime.fromisoformat(one_op['date'])
+                        op['operationAmount'] = one_op['operationAmount']
+                        op['description'] = one_op['description']
+                        op['from'] = one_op.get('from', "")
+                        op['to'] = one_op.get('to', "")
+                        list_operation.append(op)
 
             # получаем новый сортированный по дате список на основе предыдущего
             new_list_operation = sorted(list_operation, key=lambda oper: oper['date'], reverse=True)
-            # и возвращаем его
-            return new_list_operation
+            # и возвращаем нужное количество позиций
+            return new_list_operation[:init.COUNT_SELECT_OPERATION]
     else:
         print(f"Файл данных '{filepath}' не найден или указан неверный путь!")
 
@@ -55,19 +56,8 @@ def main():
     # в data получаем список (массив) данных класса Operation
     data = load_data(init.FILE_PATH_OPERATION)
 
-    # счетчик пройденных записей по порядку
-    index = 0
-    # счетчик требуемых записей
-    true_op = 0
-    while true_op < init.COUNT_SELECT_OPERATION:  # default = 5
-        operation = data[index]
-        # находим запись по критерию state. default = EXECUTED
-        if str(operation['state']).upper() == init.TYPE_STATE_OPERATION.upper():
-            # и выводим её на экран
-            print_operation(operation)
-            true_op += 1
-        index += 1
-
+    for o in data:
+        print_operation(o)
 
 # старт программы
 if __name__ == '__main__':
